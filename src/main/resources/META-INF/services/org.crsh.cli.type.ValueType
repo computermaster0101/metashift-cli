@@ -1,0 +1,3 @@
+com.metashift.crash.types.ResourceReferenceValueType
+com.metashift.crash.types.FileableValueType
+com.metashift.crash.types.MetaGraphReferenceType

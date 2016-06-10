@@ -1,0 +1,3 @@
+[submodule "vendor/relproxy"]
+	path = vendor/relproxy
+	url = https://github.com/MindsIgnited/relproxy.git

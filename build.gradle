@@ -1,0 +1,163 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+apply plugin: "metashift" //note: includes spring-boot plugin
+
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("build/classes/main/")
+    }
+}
+
+jar {
+    baseName = "metashift-cli"
+    version = "0.0.1-SNAPSHOT"
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://repo.spring.io/snapshot" }
+    flatDir {
+        dirs "lib" // Here for crash deps temporarily
+    }
+}
+
+ext {
+    reactorVersion = "1.1.0.RELEASE"
+}
+
+
+configurations {
+    compile.exclude group: "org.slf4j", module: "slf4j-log4j12"
+    runtime.exclude group: "org.slf4j", module: "slf4j-log4j12"
+    compile.exclude group: "org.slf4j", module: "slf4j-simple"
+    runtime.exclude group: "org.slf4j", module: "slf4j-simple"
+}
+
+mainClassName = "com.metashift.MetashiftApplication"
+
+
+dependencies {
+
+    ext {
+        springBootVersion = '1.2.3.RELEASE'
+        springVersion = '4.1.6.RELEASE'
+    }
+
+    compile "org.codehaus.groovy:groovy-all:2.4.4"
+    compile "org.apache.ivy:ivy:2.4.0"
+    compile "org.freemarker:freemarker"
+
+    compile "commons-logging:commons-logging:1.2"
+
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-context-support:${springVersion}"
+
+    compile "org.springframework:spring-tx:${springVersion}"
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+
+    compile "commons-io:commons-io:2.4"
+
+    /** Spring Deps **/
+    compile group: "javax.inject", name: "javax.inject", version: "1"
+    compile "javax.cache:cache-api:1.0.0"
+    compile "org.hibernate:hibernate-validator"
+    compile "javax.el:javax.el-api:2.2.4"
+    compile "org.glassfish.web:javax.el:2.2.4"
+
+    /** Boot CLI Deps **/
+
+    compile "org.springframework.boot:spring-boot-loader:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-dependency-tools:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-loader-tools:${springBootVersion}"
+
+    compile "jline:jline:2.12.1"
+    compile "net.sf.jopt-simple:jopt-simple:4.8"
+
+    compile "org.json:json:20141113"
+
+    compile "org.apache.httpcomponents:httpclient:4.5"
+
+    compile "org.codehaus.groovy.modules.http-builder:http-builder:0.7.1"
+
+    compile "junit:junit"
+
+    /** End Boot CLI Deps **/
+
+    compile "org.crashub:crash.shell:1.3.1-SNAPSHOT"
+    compile "org.crashub:crash.cli:1.3.1-SNAPSHOT"
+    compile("org.crashub:crash.embed.spring:1.3.1-SNAPSHOT") {
+        exclude module: "org.springframework"
+    }
+
+    compile "org.rythmengine:rythm-engine:1.0.1"
+
+    compile "com.amazonaws.resources:aws-resources:0.0.3"
+    compile "com.amazonaws.resources:aws-resources-core:0.0.3"
+    compile "com.amazonaws.resources:aws-resources-ec2:0.0.3"
+    compile "com.amazonaws.resources:aws-resources-glacier:0.0.3"
+    compile "com.amazonaws.resources:aws-resources-iam:0.0.3"
+    compile "com.amazonaws.resources:aws-resources-sns:0.0.3"
+    compile "com.amazonaws.resources:aws-resources-sqs:0.0.3"
+
+    compile("com.amazonaws:aws-java-sdk:1.9.21"){
+        exclude group: "org.springframework"
+        exclude group: "com.fasterxml.jackson.core"
+    }
+    compile("com.amazonaws:aws-java-sdk-core:1.9.21"){
+        exclude group: "com.fasterxml.jackson.core"
+    }
+    compile("com.amazonaws:aws-java-sdk-rds:1.9.21"){
+        exclude group: "com.fasterxml.jackson.core"
+    }
+
+    compile(group: "org.springframework.amqp", name: "spring-amqp", version:"1.3.6.RELEASE"){
+        exclude group: "org.springframework"
+    }
+
+    compile(group: "org.springframework.amqp", name: "spring-rabbit", version:"1.3.6.RELEASE"){
+        exclude group: "org.springframework"
+    }
+
+    compile "org.mindrot:jbcrypt:0.3m"
+
+    compile "asm:asm-all:3.3.1"
+    compile "org.xeustechnologies:jcl-core:2.6"
+    compile "io.reactivex:rxjava:1.0.7"
+
+    compile "io.fastjson:boon:0.32"
+
+
+    /** Spawn Specfific Deps **/
+
+    compile "org.ajoberstar:grgit:1.4.1"
+
+    compile "ch.qos.logback:logback-core:1.1.3"
+    compile "ch.qos.logback:logback-classic:1.1.3"
+
+
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.3"
+}
+
+
+applicationDefaultJvmArgs = [
+        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5015",
+        "-Dspring.profiles.active=development,crash",
+        "-noverify"
+]

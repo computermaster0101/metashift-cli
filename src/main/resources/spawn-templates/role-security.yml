@@ -1,0 +1,4 @@
+endpoint:
+  resource:/users/*
+  roles:manager, supervisor
+  access: get, put

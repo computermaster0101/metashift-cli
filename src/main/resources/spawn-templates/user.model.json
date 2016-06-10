@@ -1,0 +1,8 @@
+{
+  firstName: 'First Name',
+  lastName: 'Last Name',
+  address: {
+      street:'Street 1',
+      city: 'City'
+  }
+}
