@@ -111,14 +111,14 @@ dependencies {
     compile "com.amazonaws.resources:aws-resources-sns:0.0.3"
     compile "com.amazonaws.resources:aws-resources-sqs:0.0.3"
 
-    compile("com.amazonaws:aws-java-sdk:1.9.21"){
+    compile("com.amazonaws:aws-java-sdk:1.11.7"){
         exclude group: "org.springframework"
         exclude group: "com.fasterxml.jackson.core"
     }
-    compile("com.amazonaws:aws-java-sdk-core:1.9.21"){
+    compile("com.amazonaws:aws-java-sdk-core:1.11.7"){
         exclude group: "com.fasterxml.jackson.core"
     }
-    compile("com.amazonaws:aws-java-sdk-rds:1.9.21"){
+    compile("com.amazonaws:aws-java-sdk-rds:1.11.7"){
         exclude group: "com.fasterxml.jackson.core"
     }
 
