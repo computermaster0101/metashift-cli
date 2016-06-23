@@ -100,6 +100,9 @@ dependencies {
     compile("org.crashub:crash.embed.spring:1.3.1-SNAPSHOT") {
         exclude module: "org.springframework"
     }
+    compile ("org.crashub:crash.connectors.ssh:1.3.1"){
+        exclude group: "org.crashub"
+    }
 
     compile "org.rythmengine:rythm-engine:1.0.1"
 
